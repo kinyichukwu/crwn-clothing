@@ -6,7 +6,8 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 
-
+import SignUpForm from "../../components/sign-up/sign-up-form";
+import { Fragment } from "react";
 
 const SignIn = () => {
    
@@ -18,10 +19,13 @@ const SignIn = () => {
 
   
   return (
+    <Fragment>
     <div>
       <button onClick={logGoogleUser}>Sign in button</button>
       
     </div>
+    <SignUpForm/>
+    </Fragment>
   );
 };
 
