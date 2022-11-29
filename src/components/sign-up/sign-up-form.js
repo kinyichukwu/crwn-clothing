@@ -1,48 +1,96 @@
-import React, { Fragment, useState } from "react";
+import { async } from "@firebase/util";
+import React, { useState } from "react";
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase.utils";
+import FormInput from "../form-input/form-input";
+import './sign-up-form.scss'
+import '../button/button'
+import Button from "../button/button";
 const defaultFormFields = {
-  displayvalue: '',
-  email: '',
-  password: '',
-  confirmPassword: ''
-}
+  displayvalue: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 function SignUpForm() {
-  const [setForm, submitSetForm] = useState(defaultFormFields)
-  const {  displayvalue,
-  email,
-  password,
-  confirmPassword} = setForm
+  const [setForm, submitSetForm] = useState(defaultFormFields);
+  const { displayvalue, email, password, confirmPassword } = setForm;
+
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Your password does not match");
+      return;
+    }
+
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+      await createUserDocumentFromAuth(user, { displayvalue });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handelChange = (event) => {
-    const {name, value} = event.target
+    const { name, value } = event.target;
 
     submitSetForm({
       ...setForm,
-      [name]: value
-    })
-    console.log(setForm)
-  }
+      [name]: value,
+    });
+    console.log(setForm);
+  };
 
   return (
-    <Fragment>
-      <h1> Sign in with your email and password</h1>
+    <div className='sign-up-container'>
+    <h2>Do not have an account?</h2>
+      <span> Sign in with your email and password</span>
 
-      <form
-        onSubmit={() => {
-          console.log("submited");
-        }}
-      >
-        <label>Display Name</label>
-        <input type="text" required onChange={handelChange} value={displayvalue} name='displayvalue'/>
-        <label>Email</label>
-        <input type="email" required onChange={handelChange} value={email} name='email'/>
-        <label>Password</label>
-        <input type="password" required onChange={handelChange} value={password} name='password'/>
-        <label>Confirm Password</label>
-        <input type="password" required onChange={handelChange} value={confirmPassword} name='confirmPassword'/>
-        <button type="submit">Submit</button>
+      <form onSubmit={handelSubmit}>
+        <FormInput
+          label="Display Name"
+          type="text"
+          required
+          onChange={handelChange}
+          value={displayvalue}
+          name="displayvalue"
+        />
+        <FormInput
+          label="Email"
+          type="email"
+          required
+          onChange={handelChange}
+          value={email}
+          name="email"
+        />
+        <FormInput
+          label="Password "
+          type="password"
+          required
+          onChange={handelChange}
+          value={password}
+          name="password"
+        />
+        <FormInput
+          label="Confirm Password"
+          type="password"
+          required
+          onChange={handelChange}
+          value={confirmPassword}
+          name="confirmPassword"
+        />
+
+
+        <Button type="submit">Submit</Button>
       </form>
-    </Fragment>
+    </div>
   );
 }
 
