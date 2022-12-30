@@ -1,40 +1,32 @@
-import Home from "./routes/home/home.component";
-import { createBrowserRouter,   RouterProvider
-} from "react-router-dom";
-import Navigation from "./routes/navigation/navigation.component";
-import SignIn from "./routes/sign-in/sign-in.component";
-const Shop = () => {
-  return <h1>Shop</h1>
-}
+import { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Navigation/>,
-    children: [
-      {
-        
-        element: <Home/>,
-        index: true
-      },
-      {
-        path: '/shop',
-        element: <Shop/>,
-      },
-      {
-        path: '/sign-in',
-        element: <SignIn/>,
-      }
-    ]
-  }
-])
+import { UserContext } from "./contexts/user.context";
+
+import Home from "./routes/home/home.component";
+import Navigation from "./routes/navigation/navigation.component";
+import Authentication from "./routes/authentication/authentication.component";
+
+const Shop = () => {
+  return <h1>I am the shop page</h1>;
+};
 
 const App = () => {
-
-  return( 
-    <RouterProvider router={router}/>
-   
-    );
+  const { currentUser } = useContext(UserContext);
+  return (
+    <Routes>
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path="shop" element={<Shop />} />
+        <Route
+          path="auth"
+          element={
+            currentUser ? <Navigate to="/" replace /> : <Authentication />
+          }
+        />
+      </Route>
+    </Routes>
+  );
 };
 
 export default App;
