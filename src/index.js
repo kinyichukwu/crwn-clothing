@@ -8,7 +8,8 @@ import { CategoriesProvider } from './contexts/categories.context';
 import { CartProvider } from './contexts/cart.context';
 
 import './index.scss';
-import { Test } from './learnMore';
+import { Test } from './folderDedicatedToLearningMoreAboutReact/learnMore';
+import Cat from './folderDedicatedToLearningMoreAboutReact/fetchingData';
 
 const rootElement = document.getElementById("root");
 
@@ -30,7 +31,7 @@ render(
 render(
   <React.StrictMode>
  
-             <Test/>
+             <Cat/>
          
   </React.StrictMode>,
   rootElement
