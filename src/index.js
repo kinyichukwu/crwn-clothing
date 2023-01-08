@@ -10,6 +10,7 @@ import { CartProvider } from './contexts/cart.context';
 import './index.scss';
 import { Test } from './folderDedicatedToLearningMoreAboutReact/learnMore';
 import Cat from './folderDedicatedToLearningMoreAboutReact/fetchingData';
+import RoutingAndUseContext from './folderDedicatedToLearningMoreAboutReact/routingInReact';
 
 const rootElement = document.getElementById("root");
 
@@ -31,7 +32,7 @@ render(
 render(
   <React.StrictMode>
  
-             <Cat/>
+             <RoutingAndUseContext/>
          
   </React.StrictMode>,
   rootElement
