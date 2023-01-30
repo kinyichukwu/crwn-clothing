@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useReducer } from "react";
 
 const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
@@ -48,6 +48,25 @@ export const CartContext = createContext({
   cartCount: 0,
   cartTotal: 0,
 });
+
+const INITIAL_STATE = {
+  isCartOpen: false,
+  cartItems: [],
+  cartCount: 0,
+  cartTotal: 0,
+};
+
+const userReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "OPEN_CART":
+      return {
+        isCartOpen: true,
+      };
+    default:
+      throw new Error('jdnfsunu')
+  }
+};
 
 export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
